@@ -43,7 +43,7 @@ export default function ContactSection() {
     setErrorMessage("");
 
     try {
-      const response = await fetch(`https://formsubmit.co/ajax/${directEmail}`, {
+      const response = await fetch("https://formsubmit.co/ajax/58967a4600ee6e3166b1fdf61cab9176", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
