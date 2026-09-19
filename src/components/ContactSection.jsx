@@ -43,26 +43,26 @@ export default function ContactSection() {
     setErrorMessage("");
 
     try {
+      const formData = new FormData();
+      formData.append("name", formState.name);
+      formData.append("email", formState.email);
+      formData.append("projectType", formState.projectType);
+      formData.append("message", formState.message);
+      formData.append("_subject", `New Portfolio Inquiry from ${formState.name} (${formState.projectType})`);
+      formData.append("_template", "table");
+      formData.append("_captcha", "false");
+
       const response = await fetch("https://formsubmit.co/ajax/58967a4600ee6e3166b1fdf61cab9176", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           "Accept": "application/json"
         },
-        body: JSON.stringify({
-          name: formState.name,
-          email: formState.email,
-          projectType: formState.projectType,
-          message: formState.message,
-          _subject: `New Portfolio Inquiry from ${formState.name} (${formState.projectType})`,
-          _template: "table",
-          _captcha: "false"
-        })
+        body: formData
       });
 
       const data = await response.json();
 
-      if (response.ok || data.success === "true" || data.success === true) {
+      if (response.ok && (data.success === "true" || data.success === true)) {
         try {
           confetti({
             particleCount: 65,
@@ -79,7 +79,6 @@ export default function ContactSection() {
       }
     } catch (err) {
       console.error("Form submit error:", err);
-      // Fallback: If network fails, offer instant mailto link
       setErrorMessage("Could not deliver automatically. You can reach out directly via email.");
     } finally {
       setIsSubmitting(false);
