@@ -8,8 +8,10 @@ import {
   CheckCircle, 
   Copy, 
   Check, 
-  ArrowRight,
-  Sparkles
+  ArrowRight, 
+  Sparkles,
+  Loader2,
+  AlertCircle
 } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/Icons";
 
@@ -20,7 +22,9 @@ export default function ContactSection() {
     projectType: "Full-Stack Web / SaaS Project",
     message: ""
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [copiedEmail, setCopiedEmail] = useState(false);
 
   const directEmail = "areejkhalid360@gmail.com";
@@ -31,22 +35,55 @@ export default function ContactSection() {
     setTimeout(() => setCopiedEmail(false), 2000);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formState.name || !formState.email || !formState.message) return;
 
-    try {
-      confetti({
-        particleCount: 60,
-        spread: 60,
-        origin: { y: 0.7 },
-        colors: ["#10b981", "#34d399", "#6ee7b7", "#ffffff"]
-      });
-    } catch (err) {
-      console.log(err);
-    }
+    setIsSubmitting(true);
+    setErrorMessage("");
 
-    setSubmitted(true);
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${directEmail}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          name: formState.name,
+          email: formState.email,
+          projectType: formState.projectType,
+          message: formState.message,
+          _subject: `New Portfolio Inquiry from ${formState.name} (${formState.projectType})`,
+          _template: "table",
+          _captcha: "false"
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok || data.success === "true" || data.success === true) {
+        try {
+          confetti({
+            particleCount: 65,
+            spread: 60,
+            origin: { y: 0.7 },
+            colors: ["#10b981", "#34d399", "#6ee7b7", "#ffffff"]
+          });
+        } catch (err) {
+          console.log(err);
+        }
+        setSubmitted(true);
+      } else {
+        throw new Error(data.message || "Unable to send message.");
+      }
+    } catch (err) {
+      console.error("Form submit error:", err);
+      // Fallback: If network fails, offer instant mailto link
+      setErrorMessage("Could not deliver automatically. You can reach out directly via email.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -233,12 +270,37 @@ export default function ContactSection() {
                   />
                 </div>
 
+                {errorMessage && (
+                  <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                      <span>{errorMessage}</span>
+                    </div>
+                    <a
+                      href={`mailto:${directEmail}?subject=${encodeURIComponent("Portfolio Inquiry: " + formState.name)}&body=${encodeURIComponent(formState.message)}`}
+                      className="underline font-semibold hover:text-red-300"
+                    >
+                      Email Direct
+                    </a>
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-xl font-semibold text-xs bg-emerald-400 hover:bg-emerald-300 text-slate-950 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30"
+                  disabled={isSubmitting}
+                  className="w-full py-3 rounded-xl font-semibold text-xs bg-emerald-400 hover:bg-emerald-300 disabled:bg-emerald-500/50 disabled:cursor-not-allowed text-slate-950 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30"
                 >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>Send Message to Areej</span>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Sending Message...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-3.5 h-3.5" />
+                      <span>Send Message to Areej</span>
+                    </>
+                  )}
                 </button>
               </form>
             )}
