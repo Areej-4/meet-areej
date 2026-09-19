@@ -46,6 +46,7 @@ export default function ContactSection() {
       const formData = new FormData();
       formData.append("name", formState.name);
       formData.append("email", formState.email);
+      formData.append("_replyto", formState.email);
       formData.append("projectType", formState.projectType);
       formData.append("message", formState.message);
       formData.append("_subject", `New Portfolio Inquiry from ${formState.name} (${formState.projectType})`);
