@@ -1,26 +1,404 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg-primary: #06080c;
+    --bg-secondary: #0b0f17;
+    --bg-card: rgba(13, 18, 28, 0.75);
+    --bg-card-hover: rgba(18, 26, 40, 0.9);
+    --border-glass: rgba(255, 255, 255, 0.09);
+    --border-glass-shine: rgba(52, 211, 153, 0.35);
+    --border-hover: rgba(52, 211, 153, 0.5);
+    
+    /* Luxury Glossy Green & Chrome Palette */
+    --accent-emerald: #10b981;
+    --accent-emerald-light: #34d399;
+    --accent-emerald-glow: rgba(16, 185, 129, 0.15);
+    --accent-mint: #6ee7b7;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+  }
+
+  .light {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #f1f5f9;
+    --bg-card: rgba(255, 255, 255, 0.95);
+    --bg-card-hover: #ffffff;
+    --border-glass: rgba(15, 23, 42, 0.08);
+    --border-glass-shine: rgba(16, 185, 129, 0.3);
+    --border-hover: rgba(16, 185, 129, 0.45);
+    --accent-emerald: #059669;
+    --accent-emerald-light: #10b981;
+    --accent-emerald-glow: rgba(5, 150, 105, 0.1);
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  letter-spacing: -0.012em;
+}
+
+/* Glass Card & Borders */
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-glass);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), rgba(52, 211, 153, 0.4), transparent);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.glass-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-hover);
+  box-shadow: 0 16px 40px -10px var(--accent-emerald-glow), 0 0 20px -2px rgba(52, 211, 153, 0.15);
+  transform: translateY(-2px);
+}
+
+.glass-nav {
+  background: rgba(6, 8, 12, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.light .glass-nav {
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+/* Ambient Spotlight */
+.hero-spotlight {
+  position: absolute;
+  top: -140px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(52, 211, 153, 0.06) 30%, rgba(148, 163, 184, 0.03) 60%, transparent 75%);
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.light .hero-spotlight {
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.04) 40%, transparent 70%);
+}
+
+.bg-dot-grid {
+  background-size: 32px 32px;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+}
+
+.light .bg-dot-grid {
+  background-image: radial-gradient(circle, rgba(15, 23, 42, 0.06) 1px, transparent 1px);
+}
+
+/* Glossy Gradient Headlines */
+.text-glossy-white {
+  background: linear-gradient(180deg, #ffffff 30%, #e2e8f0 70%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.light .text-glossy-white {
+  background: linear-gradient(180deg, #0f172a 30%, #1e293b 70%, #334155 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-glossy-emerald {
+  background: linear-gradient(135deg, #a7f3d0 0%, #34d399 40%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.light .text-glossy-emerald {
+  background: linear-gradient(135deg, #047857 0%, #059669 50%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ========================================================
+   LIGHT MODE TOTAL POLISH & HIGH-CONTRAST OVERRIDES
+   ======================================================== */
+
+.light .glass-card {
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.light .glass-card::before {
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.06), rgba(16, 185, 129, 0.25), transparent);
+}
+
+.light .glass-card:hover {
+  box-shadow: 0 12px 30px -8px rgba(16, 185, 129, 0.15), 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Headings and High Contrast Text */
+.light h1, .light h2, .light h3, .light h4, .light .text-white {
+  color: #0f172a !important;
+}
+
+.light .text-slate-100 {
+  color: #0f172a !important;
+}
+
+.light .text-slate-200, .light .text-slate-300 {
+  color: #334155 !important;
+}
+
+.light .text-slate-400 {
+  color: #475569 !important;
+}
+
+.light .text-slate-500 {
+  color: #64748b !important;
+}
+
+.light .text-slate-600 {
+  color: #94a3b8 !important;
+}
+
+/* Emerald Colors in Light Mode */
+.light .text-emerald-300 {
+  color: #047857 !important;
+}
+
+.light .text-emerald-400 {
+  color: #059669 !important;
+}
+
+.light .bg-emerald-500\/10 {
+  background-color: rgba(16, 185, 129, 0.12) !important;
+}
+
+.light .bg-emerald-500\/20 {
+  background-color: rgba(16, 185, 129, 0.2) !important;
+}
+
+.light .border-emerald-500\/20,
+.light .border-emerald-500\/25,
+.light .border-emerald-500\/30,
+.light .border-emerald-500\/40 {
+  border-color: rgba(16, 185, 129, 0.35) !important;
+}
+
+/* Slate Backgrounds transformed to Clean Crisp Light Surfaces */
+.light .bg-slate-900,
+.light .bg-slate-950,
+.light .bg-\[\#06080c\],
+.light .bg-\[\#06080e\],
+.light .bg-\[\#07090e\],
+.light .bg-\[\#080c14\],
+.light .bg-\[\#0b0f17\] {
+  background-color: #ffffff !important;
+}
+
+.light .bg-slate-900\/90,
+.light .bg-slate-900\/80,
+.light .bg-slate-900\/60,
+.light .bg-slate-900\/50,
+.light .bg-slate-900\/40 {
+  background-color: #f8fafc !important;
+}
+
+.light .bg-slate-950\/90,
+.light .bg-slate-950\/80,
+.light .bg-slate-950\/70,
+.light .bg-slate-950\/50,
+.light .bg-slate-950\/40,
+.light .bg-slate-950\/30,
+.light .bg-slate-950\/20 {
+  background-color: #f1f5f9 !important;
+}
+
+.light .bg-slate-800 {
+  background-color: #e2e8f0 !important;
+}
+
+.light .hover\:bg-slate-800:hover,
+.light .hover\:bg-slate-700:hover,
+.light .hover\:bg-slate-750:hover {
+  background-color: #e2e8f0 !important;
+}
+
+.light .hover\:bg-slate-900\/80:hover,
+.light .hover\:bg-slate-900\/90:hover {
+  background-color: #ffffff !important;
+}
+
+/* Borders transformed to Crisp Light Borders */
+.light .border-slate-800,
+.light .border-slate-800\/80,
+.light .border-slate-800\/70,
+.light .border-slate-800\/60,
+.light .border-slate-800\/50,
+.light .border-slate-800\/40,
+.light .border-slate-800\/30,
+.light .border-slate-800\/25 {
+  border-color: rgba(203, 213, 225, 0.8) !important;
+}
+
+.light .border-slate-700,
+.light .border-slate-700\/80,
+.light .border-slate-700\/50 {
+  border-color: #cbd5e1 !important;
+}
+
+/* ========================================================
+   LIGHT MODE: QUOTE CARD, FOOTER & HERO/LEADERSHIP BANNERS
+   ======================================================== */
+
+/* 1. Guiding Standard Quote Card in ExperiencePhilosophy */
+.light .light-quote-card {
+  background: linear-gradient(135deg, rgba(236, 253, 245, 0.95) 0%, #ffffff 50%, rgba(240, 253, 244, 0.85) 100%) !important;
+  border-color: rgba(16, 185, 129, 0.35) !important;
+  box-shadow: 0 4px 20px -2px rgba(16, 185, 129, 0.1), 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+}
+
+.light .light-quote-card .quote-badge {
+  color: #047857 !important;
+}
+
+.light .light-quote-card .quote-text {
+  color: #0f172a !important;
+  font-weight: 500;
+}
+
+.light .light-quote-card .quote-author {
+  color: #475569 !important;
+}
+
+/* 2. Executive Leadership Banner */
+.light .leadership-banner {
+  background: linear-gradient(135deg, rgba(236, 253, 245, 0.95) 0%, #ffffff 50%, rgba(240, 253, 244, 0.9) 100%) !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+.light .leadership-banner .banner-badge {
+  color: #047857 !important;
+}
+
+.light .leadership-banner .banner-title {
+  color: #0f172a !important;
+}
+
+.light .leadership-banner .banner-desc {
+  color: #475569 !important;
+}
+
+/* 3. Footer in Light Mode */
+.light footer,
+.light .footer-container {
+  background-color: #ffffff !important;
+  border-top-color: #e2e8f0 !important;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.light footer .text-slate-400,
+.light footer .text-slate-500 {
+  color: #475569 !important;
+}
+
+.light footer .text-white,
+.light footer .text-slate-200 {
+  color: #0f172a !important;
+}
+
+.light footer .text-emerald-400,
+.light footer .text-cyan-400 {
+  color: #047857 !important;
+}
+
+.light footer a,
+.light footer button {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #475569 !important;
+}
+
+.light footer a:hover,
+.light footer button:hover {
+  background-color: #f1f5f9 !important;
+  color: #047857 !important;
+  border-color: rgba(16, 185, 129, 0.4) !important;
+}
+
+/* 4. Timeline Line and Dots */
+.light .before\:via-slate-800::before {
+  --tw-gradient-via: #cbd5e1 !important;
+}
+
+/* 5. Brand Logo Mark in Light & Dark Mode */
+.light .group\/logo > div:last-child {
+  background-color: #ffffff !important;
+  border-color: rgba(16, 185, 129, 0.4) !important;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Form inputs in Light Mode */
+.light input, .light textarea, .light select {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+.light input::placeholder, .light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Code block / Terminal preserving dark developer aesthetics with crisp borders in light mode */
+.light #hero pre code {
+  color: #38bdf8 !important;
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.25);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(52, 211, 153, 0.5);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
