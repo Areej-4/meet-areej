@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="emerald-bg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#34D399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+  </defs>
+
+  <!-- High-Visibility Vibrant Emerald Rounded Squircle -->
+  <rect x="0" y="0" width="32" height="32" rx="8" fill="url(#emerald-bg)" />
+
+  <!-- Compact, Balanced Vector Mark with Elegant Margins -->
+  <g transform="translate(2.4, 2.4) scale(0.85)">
+    <!-- Main Apex Stem 'A' & Chevron '<' -->
+    <path
+      d="M7 24L15.2 6.8C15.6 6.1 16.4 6.1 16.8 6.8L21.5 17.5"
+      stroke="#022c22"
+      stroke-width="3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+    <!-- Crossbar -->
+    <path
+      d="M10 17H19.5"
+      stroke="#022c22"
+      stroke-width="2.8"
+      stroke-linecap="round"
+    />
+
+    <!-- Upper 'K' Kinetic Wing (Crisp Pure White) -->
+    <path
+      d="M16 13.5L24.5 5.5"
+      stroke="#ffffff"
+      stroke-width="3"
+      stroke-linecap="round"
+    />
+
+    <!-- Lower 'K' Foundation Leg -->
+    <path
+      d="M17.5 16L25 24"
+      stroke="#022c22"
+      stroke-width="3"
+      stroke-linecap="round"
+    />
+
+    <!-- Glowing White Apex Node -->
+    <circle cx="16" cy="6.5" r="2" fill="#ffffff" />
+  </g>
+</svg>

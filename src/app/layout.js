@@ -12,9 +12,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Areej Khalid | Full-Stack Software Engineer & AI Systems Developer",
+  title: "Meet Areej | Software Engineer & AI Systems Developer",
   description: "Portfolio of Areej Khalid — Full-Stack Software Engineer with 2+ years of experience building scalable Next.js 16 / React 19 SaaS platforms, LangGraph & RAG AI agents, and enterprise data systems.",
   keywords: [
+    "Meet Areej",
     "Areej Khalid",
     "Software Engineer",
     "Full-Stack Developer",
@@ -28,8 +29,16 @@ export const metadata = {
     "AI Engineer"
   ],
   authors: [{ name: "Areej Khalid", url: "https://github.com/Areej-4" }],
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" }
+    ],
+    apple: [
+      { url: "/favicon.svg", type: "image/svg+xml" }
+    ]
+  },
   openGraph: {
-    title: "Areej Khalid | Full-Stack Software Engineer & AI Systems Developer",
+    title: "Meet Areej | Software Engineer & AI Systems Developer",
     description: "2+ Years Experience building Enterprise Next.js SaaS, LangGraph Agentic Workflows, and PostgreSQL Architectures.",
     type: "website",
     url: "https://github.com/Areej-4",
