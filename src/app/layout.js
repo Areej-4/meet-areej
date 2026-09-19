@@ -12,6 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
+  metadataBase: new URL("https://meet-areej.vercel.app"),
   title: "Meet Areej | Software Engineer & AI Systems Developer",
   description: "Portfolio of Areej Khalid — Full-Stack Software Engineer with 2+ years of experience building scalable Next.js 16 / React 19 SaaS platforms, LangGraph & RAG AI agents, and enterprise data systems.",
   keywords: [
