@@ -62,24 +62,28 @@ export default function Navbar({ onOpenCopilot }) {
   ];
 
   const handleNavLinkClick = (e, href) => {
-    e.preventDefault();
+    if (e && e.preventDefault) {
+      e.preventDefault();
+    }
+    
+    // 1. Close mobile menu drawer
     setMobileMenuOpen(false);
 
-    if (href === "#hero" || href === "#") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
+    // 2. Smooth scroll to target after brief timeout (prevents mobile touch event from aborting scroll)
+    setTimeout(() => {
+      if (href === "#hero" || href === "#") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
 
-    const targetId = href.replace("#", "");
-    const targetElement = document.getElementById(targetId);
-    if (targetElement) {
-      const navOffset = 75;
-      const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY - navOffset;
-      window.scrollTo({
-        top: elementPosition,
-        behavior: "smooth"
-      });
-    }
+      const targetId = href.replace("#", "");
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        window.location.hash = href;
+      }
+    }, 120);
   };
 
   return (
